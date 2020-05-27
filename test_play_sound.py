@@ -2,7 +2,7 @@ import sounddevice as sd
 import pytest
 from audio_tools import make_sine, save_audio_file, open_wave, record_audio
 
-@pytest.mark.skip
+
 def test_save_sine(make_sine, save_audio_file):
     """
     ERROR:
@@ -33,7 +33,7 @@ def test_record_output(record_audio, save_audio_file):
     """ Record sound """
 
     time = 3
-    fs = 41000
+    fs = 44100
 
     audio = record_audio(fs, time)
     save_audio_file(audio, 'output', fs)

@@ -24,7 +24,7 @@ def generated_sine(make_sine):
 def recorded_sine(open_wave):
     """ Load recorded sine wave """
 
-    filename = 'output_sine.wav'
+    filename = 'audacity.wav'
     fs, audio = open_wave(filename)
 
     yield audio
@@ -46,14 +46,16 @@ def spectrum_plotter():
         fig, (ax, ax2) = plt.subplots(2, figsize=(15, 8))
         ax.plot(signal[:num_samples + 1], '-')
 
+        sliced_signal = signal[:num_samples]
         hamming_window = hamming(num_samples)
-        prepared_signal = signal[:num_samples] * hamming_window
-        complex_spectrum = fft(prepared_signal)
-        magnitude_spectrum = np.abs(complex_spectrum)
+        windowed_signal = sliced_signal * hamming_window
+        complex_spectrum = fft(windowed_signal)
+        magnitude_spectrum = np.abs(complex_spectrum[:(num_samples // 2)])
+        ax2.plot(magnitude_spectrum)
 
-        frequency_range = np.linspace(0, fs, num_samples)
-        ax2.plot(frequency_range, magnitude_spectrum, '-', lw=2)
-        ax2.set_xlim(0, fs / 2)
+        # frequency_range = np.linspace(0, fs, num_samples)
+        # ax2.plot(frequency_range, magnitude_spectrum, '-', lw=2)
+        # ax2.set_xlim(0, fs / 2)
 
         plt.show()
 
